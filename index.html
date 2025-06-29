@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سليمان للعبايات | Sulaiman Abayas</title>
+    <link rel="icon" type="image/jpeg" href="images/Logo/Logo.jpeg">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <a href="#" class="logo" data-aos="fade-down" data-aos-duration="1000">
+                <img src="images/Logo/Logo.jpeg" alt="سليمان للعبايات">
+            </a>
+            <ul id="sidemenu" class="nav-links">
+                <li data-aos="fade-down" data-aos-duration="1000" data-aos-delay="100">
+                    <a href="#" class="active">الرئيسية</a>
+                </li>
+                <li data-aos="fade-down" data-aos-duration="1000" data-aos-delay="200">
+                    <a href="#products">منتجاتنا</a>
+                </li>
+                <li data-aos="fade-down" data-aos-duration="1000" data-aos-delay="300">
+                    <a href="#about">من نحن</a>
+                </li>
+                <li data-aos="fade-down" data-aos-duration="1000" data-aos-delay="400">
+                    <a href="#contact">اتصل بنا</a>
+                </li>
+                </ul>
+            <div class="nav-actions" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="600">
+                <div class="search-wrapper">
+                    <button class="search-toggle-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <div id="searchContainer" class="search-container">
+                        <form id="searchForm" class="search-form" role="search">
+                            <div class="search-input-container">
+                                <input type="search" 
+                                       class="search-input" 
+                                       placeholder="ابحث عن عباية..." 
+                                       aria-label="البحث"
+                                       autocomplete="off">
+                                <button type="button" 
+                                        id="searchClear" 
+                                        class="search-clear" 
+                                        aria-label="مسح البحث">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </form>
+                        <div id="searchResults" class="search-results" role="region" aria-live="polite">
+                            <div class="search-loading">
+                                <div class="spinner"></div>
+                                <span>جاري البحث...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="cart.html" class="cart-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </a>
+                <button id="toggleBtn" class="toggle-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+        <div class="hero-content">
+                <div class="hero-text" data-aos="fade-up" data-aos-duration="1000">
+                    <h1>أناقة تليق بكِ</h1>
+                    <p>اكتشفي تشكيلتنا الجديدة من العبايات العصرية بتصاميم فريدة وخامات فاخرة</p>
+                    <div class="hero-buttons">
+                        <a href="#products" class="btn btn-primary">تسوقي الآن</a>
+                    </div>
+                </div>
+                <div class="hero-image" data-aos="fade-left" data-aos-duration="1500">
+                    <img src="images/Hero/hero.jpg" alt="عباية أنيقة" class="main-image">
+                    <div class="floating-elements">
+                        <img src="images/products/luxury/luxury-1.jpg" alt="" class="float-1">
+                        <img src="images/products/embroidered/embroidered-1.jpg" alt="" class="float-2">
+                        <img src="images/products/classic/classic-1.jpg" alt="" class="float-3">
+                    </div>
+        </div>
+            </div>
+    </section>
+
+        <section id="products" class="products">
+            <div class="section-header" data-aos="fade-up">
+                <h2>منتجاتنا المميزة</h2>
+                <p>تشكيلة متنوعة من العبايات العصرية</p>
+            </div>
+            <div class="products-grid">
+                <!-- Classic Abayas -->
+                <div class="product-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="product-image">
+                        <img src="images/products/classic/classic-1.jpg" alt="عباية كلاسيك">
+                        <div class="product-overlay">
+                            <a href="product.html?id=1" class="btn btn-primary">عرض التفاصيل</a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>عباية كلاسيك</h3>
+                        <p>عباية أنيقة بتصميم كلاسيكي</p>
+                        <span class="price">1500 جنيه</span>
+                    </div>
+                </div>
+
+                <!-- Luxury Abayas -->
+                <div class="product-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="product-image">
+                        <img src="images/products/luxury/luxury-1.jpg" alt="عباية فاخرة">
+                        <div class="product-overlay">
+                            <a href="product.html?id=4" class="btn btn-primary">عرض التفاصيل</a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>عباية فاخرة</h3>
+                        <p>عباية مميزة بتطريز راقي</p>
+                        <span class="price">2200 جنيه</span>
+                    </div>
+                </div>
+
+                <!-- Embroidered Abayas -->
+                <div class="product-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="product-image">
+                        <img src="images/products/embroidered/embroidered-1.jpg" alt="عباية مطرزة">
+                        <div class="product-overlay">
+                            <a href="product.html?id=2" class="btn btn-primary">عرض التفاصيل</a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>عباية مطرزة</h3>
+                        <p>عباية بتطريز يدوي فاخر</p>
+                        <span class="price">1800 جنيه</span>
+                    </div>
+                </div>
+
+                <!-- Casual Abayas -->
+                <div class="product-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="product-image">
+                        <img src="images/products/casual/casual-1.jpg" alt="عباية كاجوال">
+                        <div class="product-overlay">
+                            <a href="product.html?id=3" class="btn btn-primary">عرض التفاصيل</a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>عباية كاجوال</h3>
+                        <p>عباية عصرية للإطلالة اليومية</p>
+                        <span class="price">1200 جنيه</span>
+                    </div>
+                </div>
+
+                <!-- Modern Abaya -->
+                <div class="product-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="product-image">
+                        <img src="images/products/modern/modern-1.jpg" alt="عباية عصرية مودرن">
+                        <div class="product-overlay">
+                            <a href="product.html?id=5" class="btn btn-primary">عرض التفاصيل</a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>عباية عصرية مودرن</h3>
+                        <p>عباية عصرية بتصميم مودرن وقصة مميزة</p>
+                        <span class="price">950 جنيه</span>
+                    </div>
+                </div>
+
+                <!-- Evening Abaya -->
+                <div class="product-card" data-aos="fade-up" data-aos-delay="600">
+                    <div class="product-image">
+                        <img src="images/products/evening/evening-1.jpg" alt="عباية سهرة">
+                        <div class="product-overlay">
+                            <a href="product.html?id=6" class="btn btn-primary">عرض التفاصيل</a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>عباية سهرة</h3>
+                        <p>عباية سهرة فاخرة مع تطريز كريستال</p>
+                        <span class="price">1600 جنيه</span>
+                    </div>
+                </div>
+
+                <!-- Sport Casual Abaya -->
+                <div class="product-card" data-aos="fade-up" data-aos-delay="700">
+                    <div class="product-image">
+                        <img src="images/products/sport/sport-1.jpg" alt="عباية كاجوال سبور">
+                        <div class="product-overlay">
+                            <a href="product.html?id=7" class="btn btn-primary">عرض التفاصيل</a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>عباية كاجوال سبور</h3>
+                        <p>عباية كاجوال سبور عملية ومريحة</p>
+                        <span class="price">850 جنيه</span>
+                    </div>
+                </div>
+
+                <!-- Premium Abaya -->
+                <div class="product-card" data-aos="fade-up" data-aos-delay="800">
+                    <div class="product-image">
+                        <img src="images/products/premium/premium-1.jpg" alt="عباية بريميم">
+                        <div class="product-overlay">
+                            <a href="product.html?id=8" class="btn btn-primary">عرض التفاصيل</a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>عباية بريميم</h3>
+                        <p>عباية من المجموعة الحصرية بريميم</p>
+                        <span class="price">2600 جنيه</span>
+                    </div>
+                </div>
+
+                <!-- Ramadan Special Abaya -->
+                <div class="product-card" data-aos="fade-up" data-aos-delay="900">
+                    <div class="product-image">
+                        <img src="images/products/ramadan/ramadan-1.jpg" alt="عباية رمضان الخاصة">
+                        <div class="product-overlay">
+                            <a href="product.html?id=9" class="btn btn-primary">عرض التفاصيل</a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>عباية رمضان الخاصة</h3>
+                        <p>عباية مميزة لشهر رمضان المبارك</p>
+                        <span class="price">1100 جنيه</span>
+                    </div>
+                </div>
+
+                <!-- Bridal Abaya -->
+                <div class="product-card" data-aos="fade-up" data-aos-delay="1000">
+                    <div class="product-image">
+                        <img src="images/products/wedding/wedding-1.jpg" alt="عباية العروس">
+                        <div class="product-overlay">
+                            <a href="product.html?id=10" class="btn btn-primary">عرض التفاصيل</a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>عباية العروس</h3>
+                        <p>عباية فاخرة للعروس بتصميم ملكي</p>
+                        <span class="price">1299 جنيه</span>
+                    </div>
+                </div>
+
+                <!-- Office Abaya -->
+                <div class="product-card" data-aos="fade-up" data-aos-delay="1100">
+                    <div class="product-image">
+                        <img src="images/products/office/office-1.jpg" alt="عباية المكتب الأنيقة">
+                        <div class="product-overlay">
+                            <a href="product.html?id=11" class="btn btn-primary">عرض التفاصيل</a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>عباية المكتب الأنيقة</h3>
+                        <p>عباية عملية للمرأة العاملة</p>
+                        <span class="price">475 جنيه</span>
+                    </div>
+                </div>
+
+                <!-- Travel Abaya -->
+                <div class="product-card" data-aos="fade-up" data-aos-delay="1200">
+                    <div class="product-image">
+                        <img src="images/products/travel/travel-1.jpg" alt="عباية السفر العملية">
+                        <div class="product-overlay">
+                            <a href="product.html?id=12" class="btn btn-primary">عرض التفاصيل</a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>عباية السفر العملية</h3>
+                        <p>عباية مثالية للسفر والرحلات</p>
+                        <span class="price">425 جنيه</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about">
+            <div class="about-content">
+                <div class="about-text" data-aos="fade-up">
+                    <h2>من نحن</h2>
+                    <p>نحن في سليمان للعبايات نقدم لكِ أجمل وأرقى تصاميم العبايات العصرية. نحرص على اختيار أفضل الخامات وأجودها لنقدم لكِ عباية تليق بأناقتك.</p>
+                    <div class="about-features">
+                        <div class="feature" data-aos="fade-up" data-aos-delay="100">
+                            <i class="fas fa-star"></i>
+                            <h3>جودة عالية</h3>
+                            <p>نستخدم أفضل الخامات</p>
+                        </div>
+                        <div class="feature" data-aos="fade-up" data-aos-delay="200">
+                            <i class="fas fa-tshirt"></i>
+                            <h3>تصاميم عصرية</h3>
+                            <p>تصاميم تواكب الموضة</p>
+                        </div>
+                        <div class="feature" data-aos="fade-up" data-aos-delay="300">
+                            <i class="fas fa-users"></i>
+                            <h3>خدمة متميزة</h3>
+                            <p>فريق محترف لخدمتك</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image" data-aos="fade-left">
+                    <img src="images/Hero/hero.jpg" alt="عن سليمان للعبايات">
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <div class="contact-content">
+                <div class="contact-info" data-aos="fade-up">
+                    <h2>اتصل بنا</h2>
+                    <p>نسعد بتواصلك معنا في أي وقت</p>
+                    <div class="contact-methods">
+                        <div class="contact-method" data-aos="fade-up" data-aos-delay="100">
+                            <i class="fas fa-phone"></i>
+                            <h3>اتصل بنا</h3>
+                            <p>+966 50 000 0000</p>
+                        </div>
+                        <div class="contact-method" data-aos="fade-up" data-aos-delay="200">
+                            <i class="fas fa-envelope"></i>
+                            <h3>راسلنا</h3>
+                            <p>info@sulaiman.com</p>
+                        </div>
+                        <div class="contact-method" data-aos="fade-up" data-aos-delay="300">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <h3>زورنا</h3>
+                            <p>الرياض، المملكة العربية السعودية</p>
+                        </div>
+        </div>
+                </div>
+                <form class="contact-form" data-aos="fade-up" data-aos-delay="400">
+                    <div class="form-group">
+                        <input type="text" placeholder="الاسم" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="البريد الإلكتروني" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" placeholder="رقم الجوال" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="رسالتك" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">إرسال</button>
+                </form>
+        </div>
+    </section>
+    </main>
+
+    <footer class="footer">
+            <div class="footer-content">
+            <div class="footer-info">
+                <img src="images/Logo/Logo.jpeg" alt="سليمان للعبايات" class="footer-logo">
+                <p>نقدم لكِ أجمل تصاميم العبايات العصرية</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-snapchat"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+                </div>
+                <div class="footer-links">
+                        <h4>روابط سريعة</h4>
+                        <ul>
+                    <li><a href="#">الرئيسية</a></li>
+                    <li><a href="#products">منتجاتنا</a></li>
+                    <li><a href="#about">من نحن</a></li>
+                    <li><a href="#contact">اتصل بنا</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                        <h4>تواصل معنا</h4>
+                <p><i class="fas fa-phone"></i> +966 50 000 0000</p>
+                <p><i class="fas fa-envelope"></i> info@sulaiman.com</p>
+                <p><i class="fas fa-map-marker-alt"></i> الرياض، المملكة العربية السعودية</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>جميع الحقوق محفوظة © 2024 سليمان للعبايات</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="products.js"></script>
+    <script src="search.js"></script>
+    <script src="menu.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+    </script>
+</body>
+</html>

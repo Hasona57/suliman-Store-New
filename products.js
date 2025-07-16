@@ -1,3 +1,4 @@
+console.log('Products.js loaded successfully');
 window.products = {
     classic1: {
         id: 'classic1',

@@ -29,12 +29,17 @@ function getProductIdFromUrl() {
 
 function loadProductDetails() {
     const productId = getProductIdFromUrl();
+    console.log('Loading product with ID:', productId);
+    console.log('Available products:', window.products);
+    
     const product = window.products[productId];
     
     if (!product) {
         console.error('المنتج غير موجود');
         return;
     }
+
+    console.log('Product details:', product);
 
     // Update breadcrumb
     const breadcrumb = document.getElementById('productBreadcrumb');
@@ -70,11 +75,16 @@ function loadProductDetails() {
 
     // Update color selector
     const colorSelector = document.getElementById('colorSelector');
+    console.log('Color selector element:', colorSelector);
+    console.log('Product colors:', product.colors);
+    
     if (colorSelector && product.colors && Array.isArray(product.colors)) {
         colorSelector.innerHTML = '';
+        console.log('Creating color options...');
 
         // Create color options
         product.colors.forEach(color => {
+            console.log('Creating color option for:', color);
             const button = document.createElement('button');
             button.className = 'color-option';
             button.setAttribute('data-color', color);
@@ -85,7 +95,16 @@ function loadProductDetails() {
             button.appendChild(tooltip);
 
             colorSelector.appendChild(button);
+            console.log('Added color option:', color);
         });
+        
+        console.log('Final color selector HTML:', colorSelector.innerHTML);
+    } else {
+        console.error('Color selector setup failed:',
+            'colorSelector exists:', !!colorSelector,
+            'product.colors exists:', !!product.colors,
+            'product.colors is array:', Array.isArray(product.colors)
+        );
     }
 }
 

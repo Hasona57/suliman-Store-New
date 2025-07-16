@@ -90,7 +90,7 @@ This project is licensed under the MIT License
 
 ## Contact
 
-- Email: info@sulaiman.com
-- Website: www.sulaiman.com
-- Phone: +966 50 000 0000
+- Email: suliman.abayat.store@gmail.com
+- Website: https://hasona57.github.io/suliman-Store-New
+- Phone: +201104145446
 

@@ -8,24 +8,39 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Show toast notification
-function showToast(message, type = 'success') {
-    const toastContainer = document.querySelector('.toast-container');
+function showToast(message, type = 'info', duration = 5000) {
+    let toastContainer = document.getElementById('toast-container');
+    if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.id = 'toast-container';
+        document.body.appendChild(toastContainer);
+    }
+
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
-    
-    const icon = type === 'success' ? 'check-circle' : 'exclamation-circle';
-    toast.innerHTML = `
-        <i class="fas fa-${icon}"></i>
-        <span class="toast-message">${message}</span>
-    `;
-    
+
+    const icons = {
+        success: 'fa-check-circle',
+        error: 'fa-times-circle',
+        info: 'fa-info-circle'
+    };
+
+    toast.innerHTML = `<i class="fas ${icons[type]}"></i><p>${message}</p>`;
+
     toastContainer.appendChild(toast);
-    
-    // Remove toast after 3 seconds
+
     setTimeout(() => {
-        toast.style.animation = 'slideOut 0.3s forwards';
-        setTimeout(() => toast.remove(), 300);
-    }, 3000);
+        toast.classList.add('show');
+    }, 100);
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+        toast.addEventListener('transitionend', () => {
+            if (toast.parentNode) {
+                toast.parentNode.removeChild(toast);
+            }
+        });
+    }, duration);
 }
 
 // Update cart count

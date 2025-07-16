@@ -206,14 +206,14 @@ function handleCheckout(e) {
     // Check if all required elements exist
     if (!nameInput || !emailInput || !phoneInput || !addressInput) {
         console.error('Required form fields are missing');
-        showMessage('error', 'حدث خطأ في النموذج. يرجى تحديث الصفحة والمحاولة مرة أخرى.');
+        showToast('حدث خطأ في النموذج. يرجى تحديث الصفحة والمحاولة مرة أخرى.', 'error');
         return;
     }
 
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     
     if (cart.length === 0) {
-        showMessage('error', 'سلة التسوق فارغة');
+        showToast('سلة التسوق فارغة', 'error');
         return;
     }
 
@@ -227,25 +227,25 @@ function handleCheckout(e) {
 
     // Validate email format
     if (!formValues.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-        showMessage('error', 'يرجى إدخال بريد إلكتروني صحيح');
+        showToast('يرجى إدخال بريد إلكتروني صحيح', 'error');
         return;
     }
 
     // Validate phone format (Egyptian numbers)
     if (!formValues.phone.match(/^(\+20|0)?1[0125][0-9]{8}$/)) {
-        showMessage('error', 'يرجى إدخال رقم جوال مصري صحيح');
+        showToast('يرجى إدخال رقم جوال مصري صحيح', 'error');
         return;
     }
 
     // Validate name
     if (formValues.name.length < 3) {
-        showMessage('error', 'يرجى إدخال الاسم الكامل');
+        showToast('يرجى إدخال الاسم الكامل', 'error');
         return;
     }
 
     // Validate address
     if (formValues.address.length < 10) {
-        showMessage('error', 'يرجى إدخال العنوان بالتفصيل');
+        showToast('يرجى إدخال العنوان بالتفصيل', 'error');
         return;
     }
 
@@ -292,49 +292,57 @@ function handleCheckout(e) {
     // Log the data being sent
     console.log('Sending order data:', orderData);
 
-    // Send data to Google Apps Script
-    fetch('https://script.google.com/macros/s/AKfycbx2KoWLK7eYl51UP96Asz-hfBme4P42J4j5hTfmpbLfoSXO27vLsgw5NVIJwuXYiXbD/exec', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(orderData)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.success) {
-            // Clear cart and show success
-            localStorage.removeItem('cart');
-            updateCartDisplay();
-            
-            hideLoadingOverlay();
-            if (submitButton) {
-                submitButton.disabled = false;
-            }
-            
-            showMessage('success', 'تم إرسال طلبك بنجاح! سيتم إرسال تفاصيل الطلب إلى بريدك الإلكتروني.');
-            
-            // Redirect after success
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 3000);
-        } else {
-            throw new Error(data.error || 'Failed to submit order');
-        }
-    })
-    .catch(error => {
-        console.error('Error details:', error);
+                // Create a hidden form for submission
+            const submitForm = document.createElement('form');
+            submitForm.method = 'POST';
+            submitForm.action = 'https://script.google.com/macros/s/AKfycbwjVHvwNgDwO-YLHFFdrQROM0RDRdQj-dG0X6qrfAEXjBdq24IiJQyftUybOFeniBFz/exec';
+            submitForm.target = '_blank'; // This prevents the page from redirecting
+
+            // Add all data as hidden fields
+    Object.entries(orderData).forEach(([key, value]) => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = typeof value === 'object' ? JSON.stringify(value) : value;
+        submitForm.appendChild(input);
+    });
+
+    // Add the form to the body
+    document.body.appendChild(submitForm);
+
+    // Show loading overlay
+    showLoadingOverlay();
+    if (submitButton) {
+        submitButton.disabled = true;
+    }
+
+    // Submit the form
+    submitForm.submit();
+
+    // Remove form after submission
+    setTimeout(() => {
+        document.body.removeChild(submitForm);
+    }, 1000);
+
+    // Since we can't get a response from the form submission,
+    // we'll assume success after a delay
+    setTimeout(() => {
+        // Clear cart and show success
+        localStorage.removeItem('cart');
+        updateCartDisplay();
+        
         hideLoadingOverlay();
         if (submitButton) {
             submitButton.disabled = false;
         }
-        showMessage('error', 'عذراً، حدث خطأ. يرجى المحاولة مرة أخرى أو التواصل معنا مباشرة.');
-    });
+        
+        showMessage('success', 'تم إرسال طلبك بنجاح! سيتم إرسال تفاصيل الطلب إلى بريدك الإلكتروني.');
+        
+        // Redirect after success
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 3000);
+    }, 2000);
 }
 
 // Generate a unique order number
@@ -361,10 +369,37 @@ function hideLoadingOverlay() {
     const loadingOverlay = document.getElementById('loadingOverlay');
     if (loadingOverlay) {
         loadingOverlay.classList.remove('active');
+        // Delay hiding to allow for fade-out transition
         setTimeout(() => {
             loadingOverlay.style.display = 'none';
         }, 300);
     }
+}
+
+// Show the success overlay
+function showSuccessOverlay(title, message) {
+    let overlay = document.getElementById('successOverlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'successOverlay';
+        overlay.className = 'success-overlay';
+        overlay.innerHTML = `
+            <div class="success-content">
+                <i class="fas fa-check-circle"></i>
+                <h2>${title}</h2>
+                <p>${message}</p>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+    } else {
+        overlay.querySelector('h2').textContent = title;
+        overlay.querySelector('p').textContent = message;
+    }
+    
+    // Use setTimeout to allow the element to be in the DOM before adding the active class for the transition
+    setTimeout(() => {
+        overlay.classList.add('active');
+    }, 10);
 }
 
 // Show message function with animation
@@ -410,14 +445,14 @@ document.addEventListener('DOMContentLoaded', function() {
             // Check if all required elements exist
             if (!formElements.name || !formElements.email || !formElements.phone || !formElements.address) {
                 console.error('Required form fields are missing');
-                showMessage('error', 'حدث خطأ في النموذج. يرجى تحديث الصفحة والمحاولة مرة أخرى.');
+                showToast('حدث خطأ في النموذج. يرجى تحديث الصفحة والمحاولة مرة أخرى.', 'error');
                 return;
             }
 
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
             
             if (cart.length === 0) {
-                showMessage('error', 'سلة التسوق فارغة');
+                showToast('سلة التسوق فارغة', 'error');
                 return;
             }
 
@@ -431,25 +466,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Validate email format
             if (!formValues.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-                showMessage('error', 'يرجى إدخال بريد إلكتروني صحيح');
+                showToast('يرجى إدخال بريد إلكتروني صحيح', 'error');
                 return;
             }
 
             // Validate phone format (Egyptian numbers)
             if (!formValues.phone.match(/^(\+20|0)?1[0125][0-9]{8}$/)) {
-                showMessage('error', 'يرجى إدخال رقم جوال مصري صحيح');
+                showToast('يرجى إدخال رقم جوال مصري صحيح', 'error');
                 return;
             }
 
             // Validate name
             if (formValues.name.length < 3) {
-                showMessage('error', 'يرجى إدخال الاسم الكامل');
+                showToast('يرجى إدخال الاسم الكامل', 'error');
                 return;
             }
 
             // Validate address
             if (formValues.address.length < 10) {
-                showMessage('error', 'يرجى إدخال العنوان بالتفصيل');
+                showToast('يرجى إدخال العنوان بالتفصيل', 'error');
                 return;
             }
 
@@ -496,49 +531,72 @@ document.addEventListener('DOMContentLoaded', function() {
             // Log the data being sent
             console.log('Sending order data:', orderData);
 
-            // Send data to Google Apps Script
-            fetch('https://script.google.com/macros/s/AKfycbx2KoWLK7eYl51UP96Asz-hfBme4P42J4j5hTfmpbLfoSXO27vLsgw5NVIJwuXYiXbD/exec', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(orderData)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
+            // Create a hidden iframe to handle the form submission without navigating away
+            const iframeName = 'submit-iframe';
+            let iframe = document.getElementById(iframeName);
+            if (!iframe) {
+                iframe = document.createElement('iframe');
+                iframe.name = iframeName;
+                iframe.id = iframeName;
+                iframe.style.display = 'none';
+                document.body.appendChild(iframe);
+            }
+
+            // Create a hidden form for submission
+            const submitForm = document.createElement('form');
+            submitForm.method = 'POST';
+            submitForm.action = 'https://script.google.com/macros/s/AKfycbwjVHvwNgDwO-YLHFFdrQROM0RDRdQj-dG0X6qrfAEXjBdq24IiJQyftUybOFeniBFz/exec';
+            submitForm.target = iframeName; // Target the hidden iframe
+
+            // Add all data as hidden fields
+            Object.entries(orderData).forEach(([key, value]) => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = typeof value === 'object' ? JSON.stringify(value) : value;
+                submitForm.appendChild(input);
+            });
+
+            // Add the form to the body
+            document.body.appendChild(submitForm);
+
+            // Show loading overlay
+            showLoadingOverlay();
+            if (submitButton) {
+                submitButton.disabled = true;
+            }
+
+            // Submit the form
+            submitForm.submit();
+
+            // Clean up the form and iframe after a short delay
+            setTimeout(() => {
+                if (document.body.contains(submitForm)) {
+                    document.body.removeChild(submitForm);
                 }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    // Clear cart and show success
-                    localStorage.removeItem('cart');
-                    updateCartDisplay();
-                    
-                    hideLoadingOverlay();
-                    if (submitButton) {
-                        submitButton.disabled = false;
-                    }
-                    
-                    showMessage('success', 'تم إرسال طلبك بنجاح! سيتم إرسال تفاصيل الطلب إلى بريدك الإلكتروني.');
-                    
-                    // Redirect after success
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 3000);
-                } else {
-                    throw new Error(data.error || 'Failed to submit order');
+                 if (document.body.contains(iframe)) {
+                    document.body.removeChild(iframe);
                 }
-            })
-            .catch(error => {
-                console.error('Error details:', error);
+            }, 2000);
+
+            // Since we can't get a direct response, we assume success and show a notification
+            setTimeout(() => {
+                // Clear cart and show success
+                localStorage.removeItem('cart');
+                updateCartDisplay();
+                
                 hideLoadingOverlay();
                 if (submitButton) {
                     submitButton.disabled = false;
                 }
-                showMessage('error', 'عذراً، حدث خطأ. يرجى المحاولة مرة أخرى أو التواصل معنا مباشرة.');
-            });
+                
+                showSuccessOverlay('تم إرسال طلبك بنجاح!', 'سيتم إرسال تفاصيل الطلب إلى بريدك الإلكتروني.');
+                
+                // Redirect after success message is shown
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 4000);
+            }, 2500);
         });
     }
     

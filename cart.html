@@ -179,20 +179,30 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>جميع الحقوق محفوظة © 2024 سليمان للعبايات</p>
+            <p>&copy; 2024 متجر سليمان. كل الحقوق محفوظة.</p>
         </div>
     </footer>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <script src="products.js"></script>
-    <script src="search.js"></script>
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>جاري إرسال طلبك...</p>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        duration: 1000,
+        once: true
+      });
+    </script>
+    <script src="js/product-data.js"></script>
+    <script src="main.js"></script>
     <script src="menu.js"></script>
     <script src="cart.js"></script>
-    <script>
-        AOS.init({
-            duration: 800,
-            once: true
-        });
-    </script>
+    <script src="search.js"></script>
+    <script src="ui-updater.js" defer></script>
 </body>
 </html> 

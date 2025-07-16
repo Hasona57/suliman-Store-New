@@ -490,6 +490,22 @@
     flex-wrap: wrap;
 }
 
+.color-name-tooltip {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
 .color-option {
     width: 35px;
     height: 35px;
@@ -501,6 +517,12 @@
     padding: 0;
     margin: 0;
     outline: none;
+}
+
+.color-option:hover .color-name-tooltip {
+    opacity: 1;
+    visibility: visible;
+    bottom: -25px;
 }
 
 .color-option:hover {
@@ -525,26 +547,27 @@
 }
 
 /* Color-specific backgrounds */
-.color-option[data-color="black"] {
+.color-option[data-color="أسود"] {
     background-color: #000000;
 }
 
-.color-option[data-color="beige"] {
+.color-option[data-color="بيج"] {
     background-color: #F5E6CB;
 }
 
-.color-option[data-color="grey"] {
+.color-option[data-color="رمادي"] {
     background-color: #808080;
 }
 
-.color-option[data-color="navy"] {
+.color-option[data-color="كحلي"] {
     background-color: #1B1B3A;
 }
 
-.color-option[data-color="white"] {
+.color-option[data-color="أبيض"] {
     background-color: #FFFFFF;
+    border: 2px solid #ddd;
 }
 
-.color-option[data-color="golden"] {
+.color-option[data-color="ذهبي"] {
     background: linear-gradient(45deg, #FFD700, #FDB931);
 }

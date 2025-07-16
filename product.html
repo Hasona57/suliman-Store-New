@@ -168,9 +168,34 @@
                 </li>
             </ul>
             <div class="nav-actions" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="600">
-                <button class="search-btn">
-                    <i class="fas fa-search"></i>
-                </button>
+                <div class="search-wrapper">
+                    <button class="search-toggle-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <div id="searchContainer" class="search-container">
+                        <form id="searchForm" class="search-form" role="search">
+                            <div class="search-input-container">
+                                <input type="search" 
+                                       class="search-input" 
+                                       placeholder="ابحث عن عباية..." 
+                                       aria-label="البحث"
+                                       autocomplete="off">
+                                <button type="button" 
+                                        id="searchClear" 
+                                        class="search-clear" 
+                                        aria-label="مسح البحث">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </form>
+                        <div id="searchResults" class="search-results" role="region" aria-live="polite">
+                            <div class="search-loading">
+                                <div class="spinner"></div>
+                                <span>جاري البحث...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <a href="cart.html" class="cart-btn">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count" id="cartCount">0</span>
@@ -178,8 +203,8 @@
                 <button id="toggleBtn" class="toggle-btn">
                     <i class="fas fa-bars"></i>
                 </button>
-        </div>
-    </nav>
+            </div>
+        </nav>
     </header>
 
     <!-- Breadcrumb -->
@@ -212,11 +237,13 @@
                 <div class="product-meta" data-aos="fade-up" data-aos-duration="1000">
                     <h3>اختر المقاس</h3>
                     <div class="size-selector" id="sizeSelector">
-                        <button class="size-option">S</button>
-                        <button class="size-option">M</button>
-                        <button class="size-option">L</button>
-                        <button class="size-option">XL</button>
+                        <button class="size-option" data-size="S">S</button>
+                        <button class="size-option" data-size="M">M</button>
+                        <button class="size-option" data-size="L">L</button>
+                        <button class="size-option" data-size="XL">XL</button>
+                        <button class="size-option" data-size="XXL">XXL</button>
                     </div>
+                    <button onclick="openSizeGuide()" class="size-guide-link">دليل المقاسات</button>
                 </div>
 
                 <!-- Color Selector -->
@@ -228,30 +255,26 @@
                 </div>
 
                 <!-- Quantity Selector -->
-                <div class="product-meta" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+                <div class="product-meta" data-aos="fade-up" data-aos-duration="1000">
                     <h3>الكمية</h3>
                     <div class="quantity-selector">
-                        <button type="button" class="quantity-btn minus" onclick="decreaseQuantity()">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <input type="text" class="quantity-input" id="quantityInput" value="1" readonly>
-                        <button type="button" class="quantity-btn plus" onclick="increaseQuantity()">
-                            <i class="fas fa-plus"></i>
-                        </button>
+                        <button class="quantity-btn" onclick="decrementQuantity()">-</button>
+                        <input type="text" id="quantity" class="quantity-input" value="1" readonly>
+                        <button class="quantity-btn" onclick="incrementQuantity()">+</button>
                     </div>
-                    <p class="quantity-message" id="quantityMessage"></p>
+                    <div id="quantityMessage" class="quantity-message"></div>
                 </div>
 
                 <!-- Add to Cart Button -->
-                <button class="add-to-cart" id="addToCartBtn" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                <button id="addToCartBtn" class="btn btn-primary add-to-cart-btn" data-aos="fade-up" data-aos-duration="1000">
                     <i class="fas fa-shopping-cart"></i>
-                    أضف إلى السلة
+                    <span>أضف إلى السلة</span>
                 </button>
 
-                <!-- Additional Product Details -->
-                <div class="product-meta" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
-                    <h3>تفاصيل المنتج</h3>
-                    <ul class="product-features" id="productFeatures">
+                <!-- Product Features -->
+                <div class="product-features" data-aos="fade-up" data-aos-duration="1000">
+                    <h3>مميزات المنتج</h3>
+                    <ul id="productFeatures">
                         <!-- Features will be loaded dynamically -->
                     </ul>
                 </div>
@@ -259,489 +282,284 @@
         </div>
     </main>
 
+    <!-- Footer -->
     <footer class="footer">
+        <div class="container">
         <div class="footer-content">
-            <div class="footer-info">
-                <img src="images/Logo/Logo.jpeg" alt="سليمان للعبايات" class="footer-logo">
-                <p>نقدم لكِ أجمل تصاميم العبايات العصرية</p>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-snapchat"></i></a>
-                    <a href="#"><i class="fab fa-tiktok"></i></a>
-                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                <div class="footer-section">
+                    <h4>روابط سريعة</h4>
+                    <ul>
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="index.html#products">منتجاتنا</a></li>
+                        <li><a href="index.html#about">من نحن</a></li>
+                        <li><a href="index.html#contact">اتصل بنا</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>تواصل معنا</h4>
+                    <p><i class="fas fa-phone"></i> <span>+201104145446</span></p>
+                    <p><i class="fas fa-envelope"></i> <span>suliman.abayat.store@gmail.com</span></p>
+                    <p><i class="fas fa-map-marker-alt"></i> <span>مصر، جيزة، كرداسه</span></p>
                 </div>
             </div>
-            <div class="footer-links">
-                <h4>روابط سريعة</h4>
-                <ul>
-                    <li><a href="index.html">الرئيسية</a></li>
-                    <li><a href="index.html#products">منتجاتنا</a></li>
-                    <li><a href="index.html#about">من نحن</a></li>
-                    <li><a href="index.html#contact">اتصل بنا</a></li>
-                </ul>
-            </div>
-            <div class="footer-contact">
-                <h4>تواصل معنا</h4>
-                <p><i class="fas fa-phone"></i> +966 50 000 0000</p>
-                <p><i class="fas fa-envelope"></i> info@sulaiman.com</p>
-                <p><i class="fas fa-map-marker-alt"></i> الرياض، المملكة العربية السعودية</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>جميع الحقوق محفوظة © 2024 سليمان للعبايات</p>
+            <p class="copyright">جميع الحقوق محفوظة © 2024 سليمان للعبايات</p>
         </div>
     </footer>
 
-    <script>
-        // Make products object globally available
-        window.products = {
-                '1': {
-                id: '1',
-                    title: 'عباية كلاسيكية',
-                price: 1500.00,
-                    description: 'عباية أنيقة بتصميم كلاسيكي. مناسبة للمناسبات اليومية والرسمية.',
-                    images: [
-                    'images/products/classic/classic-1.jpg',
-                    'images/products/classic/classic-2.jpg',
-                    'images/products/classic/classic-3.jpg',
-                    'images/products/classic/classic-4.jpg'
-                    ],
-                    features: [
-                        'قماش حرير فاخر',
-                        'تطريز يدوي',
-                        'بطانة داخلية ناعمة',
-                        'سحاب عالي الجودة'
-                ],
-                category: 'classic',
-                colors: ['أسود', 'كحلي', 'رمادي']
-                },
-                '2': {
-                id: '2',
-                    title: 'عباية مطرزة',
-                price: 1800.00,
-                    description: 'عباية بتطريز يدوي فاخر. مناسبة للمناسبات الخاصة والأعراس.',
-                    images: [
-                    'images/products/embroidered/embroidered-1.jpg',
-                    'images/products/embroidered/embroidered-2.jpg',
-                    'images/products/embroidered/embroidered-3.jpg',
-                    'images/products/embroidered/embroidered-4.jpg'
-                    ],
-                    features: [
-                        'تطريز يدوي فاخر',
-                        'قماش كريب حرير',
-                        'تصميم عصري',
-                        'متوفرة بعدة ألوان'
-                ],
-                category: 'embroidered',
-                colors: ['أسود', 'بيج', 'رمادي', 'كحلي']
-            },
-            '3': {
-                id: '3',
-                title: 'عباية كاجوال',
-                price: 1200.00,
-                description: 'عباية عصرية للإطلالة اليومية. مثالية للمناسبات غير الرسمية والاستخدام اليومي.',
-                images: [
-                    'images/products/casual/casual-1.jpg',
-                    'images/products/casual/casual-2.jpg',
-                    'images/products/casual/casual-3.jpg',
-                    'images/products/casual/casual-4.jpg'
-                ],
-                features: [
-                    'قماش قطني مريح',
-                    'تصميم عصري بسيط',
-                    'جيوب جانبية',
-                    'مناسبة للاستخدام اليومي'
-                ],
-                category: 'casual',
-                colors: ['أسود', 'رمادي', 'كحلي']
-            },
-            '4': {
-                id: '4',
-                title: 'عباية فاخرة',
-                price: 2200.00,
-                description: 'عباية مميزة بتطريز راقي. مثالية للمناسبات الخاصة والحفلات الراقية.',
-                images: [
-                    'images/products/luxury/luxury-1.jpg',
-                    'images/products/luxury/luxury-2.jpg',
-                    'images/products/luxury/luxury-3.jpg',
-                    'images/products/luxury/luxury-4.jpg'
-                ],
-                features: [
-                    'قماش حرير ملكي',
-                    'تطريز ذهبي فاخر',
-                    'تصميم حصري',
-                    'إكسسوارات ذهبية'
-                ],
-                category: 'luxury',
-                colors: ['أسود', 'بيج', 'كحلي']
-            },
-            '5': {
-                id: '5',
-                title: 'عباية عصرية مودرن',
-                price: 425.00,
-                description: 'عباية عصرية بتصميم مودرن وقصة مميزة. مثالية للإطلالة العصرية.',
-                images: [
-                    'images/products/modern/modern-1.jpg',
-                    'images/products/modern/modern-2.jpg',
-                    'images/products/modern/modern-3.jpg',
-                    'images/products/modern/modern-4.jpg'
-                ],
-                features: [
-                    'تصميم عصري مبتكر',
-                    'قماش مريح وعملي',
-                    'قصة مميزة',
-                    'تفاصيل أنيقة'
-                ],
-                category: 'modern',
-                colors: ['أسود', 'رمادي', 'كحلي']
-            },
-            '6': {
-                id: '6',
-                title: 'عباية سهرة',
-                price: 750.00,
-                description: 'عباية سهرة فاخرة مع تطريز كريستال. مثالية للمناسبات المسائية والحفلات.',
-                images: [
-                    'images/products/evening/evening-1.jpg',
-                    'images/products/evening/evening-2.jpg',
-                    'images/products/evening/evening-3.jpg',
-                    'images/products/evening/evening-4.jpg'
-                ],
-                features: [
-                    'تطريز كريستال فاخر',
-                    'قماش حرير ملكي',
-                    'تصميم مسائي أنيق',
-                    'لمسات ذهبية راقية'
-                ],
-                category: 'evening',
-                colors: ['أسود', 'بيج', 'كحلي']
-            },
-            '7': {
-                id: '7',
-                title: 'عباية كاجوال سبور',
-                price: 375.00,
-                description: 'عباية كاجوال سبور عملية ومريحة. مثالية للنشاطات اليومية.',
-                images: [
-                    'images/products/sport/sport-1.jpg',
-                    'images/products/sport/sport-2.jpg',
-                    'images/products/sport/sport-3.jpg',
-                    'images/products/sport/sport-4.jpg'
-                ],
-                features: [
-                    'قماش مرن ومريح',
-                    'تصميم رياضي عصري',
-                    'جيوب عملية',
-                    'خامة مقاومة للعرق'
-                ],
-                category: 'sport',
-                colors: ['أسود', 'رمادي', 'كحلي']
-            },
-            '8': {
-                id: '8',
-                title: 'عباية بريميم',
-                price: 999.00,
-                description: 'عباية من المجموعة الحصرية بريميم. تجمع بين الفخامة والأناقة.',
-                images: [
-                    'images/products/premium/premium-1.jpg',
-                    'images/products/premium/premium-2.jpg',
-                    'images/products/premium/premium-3.jpg',
-                    'images/products/premium/premium-4.jpg'
-                ],
-                features: [
-                    'قماش مستورد فاخر',
-                    'تطريز يدوي حصري',
-                    'تصميم محدود الإصدار',
-                    'شهادة أصالة'
-                ],
-                category: 'premium',
-                colors: ['أسود', 'بيج', 'كحلي']
-            },
-            '9': {
-                id: '9',
-                title: 'عباية رمضان الخاصة',
-                price: 550.00,
-                description: 'عباية مميزة لشهر رمضان المبارك. تجمع بين الأصالة والعصرية.',
-                images: [
-                    'images/products/ramadan/ramadan-1.jpg',
-                    'images/products/ramadan/ramadan-2.jpg',
-                    'images/products/ramadan/ramadan-3.jpg',
-                    'images/products/ramadan/ramadan-4.jpg'
-                ],
-                features: [
-                    'تطريز إسلامي مميز',
-                    'قماش مريح للصيام',
-                    'تصميم رمضاني خاص',
-                    'ألوان تناسب الشهر الفضيل'
-                ],
-                category: 'ramadan',
-                colors: ['أسود', 'بيج', 'رمادي']
-            },
-            '10': {
-                id: '10',
-                title: 'عباية العروس',
-                price: 1299.00,
-                description: 'عباية فاخرة للعروس بتصميم ملكي. مثالية ليوم الزفاف والمناسبات الخاصة.',
-                images: [
-                    'images/products/wedding/wedding-1.jpg',
-                    'images/products/wedding/wedding-2.jpg',
-                    'images/products/wedding/wedding-3.jpg',
-                    'images/products/wedding/wedding-4.jpg'
-                ],
-                features: [
-                    'تطريز كريستال سواروفسكي',
-                    'قماش حرير فرنسي',
-                    'تصميم ملكي فاخر',
-                    'إكسسوارات ذهبية'
-                ],
-                category: 'wedding',
-                colors: ['أبيض', 'بيج', 'ذهبي']
-            },
-            '11': {
-                id: '11',
-                title: 'عباية المكتب الأنيقة',
-                price: 475.00,
-                description: 'عباية عملية للمرأة العاملة. تجمع بين الأناقة والعملية.',
-                images: [
-                    'images/products/office/office-1.jpg',
-                    'images/products/office/office-2.jpg',
-                    'images/products/office/office-3.jpg',
-                    'images/products/office/office-4.jpg'
-                ],
-                features: [
-                    'قماش مقاوم للتجعد',
-                    'تصميم رسمي أنيق',
-                    'جيوب عملية',
-                    'مريحة لساعات العمل'
-                ],
-                category: 'office',
-                colors: ['أسود', 'رمادي', 'كحلي']
-            },
-            '12': {
-                id: '12',
-                title: 'عباية السفر العملية',
-                price: 425.00,
-                description: 'عباية مثالية للسفر والرحلات. مريحة وعملية وأنيقة.',
-                images: [
-                    'images/products/travel/travel-1.jpg',
-                    'images/products/travel/travel-2.jpg',
-                    'images/products/travel/travel-3.jpg',
-                    'images/products/travel/travel-4.jpg'
-                ],
-                features: [
-                    'قماش مقاوم للتجعد',
-                    'خفيفة الوزن',
-                    'جيوب آمنة',
-                    'سهلة العناية'
-                ],
-                category: 'travel',
-                colors: ['أسود', 'رمادي', 'كحلي']
-            }
-        };
-
-        // Global quantity variable and functions
-        let quantity = 1;
-        
-        function increaseQuantity() {
-            if (quantity < 10) {
-                quantity++;
-                document.getElementById('quantityInput').value = quantity;
-                updateQuantityMessage();
-            }
-        }
-        
-        function decreaseQuantity() {
-            if (quantity > 1) {
-                quantity--;
-                document.getElementById('quantityInput').value = quantity;
-                updateQuantityMessage();
-            }
-        }
-        
-        function updateQuantityMessage() {
-            const message = document.getElementById('quantityMessage');
-            if (quantity >= 10) {
-                message.textContent = 'الحد الأقصى للطلب هو 10 قطع';
-                message.className = 'quantity-message error';
-            } else if (quantity <= 1) {
-                message.textContent = 'الحد الأدنى للطلب هو قطعة واحدة';
-                message.className = 'quantity-message';
-            } else {
-                message.textContent = '';
-            }
-        }
-
-        // Get the product ID from the URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const productId = urlParams.get('id');
-        const product = products[productId];
-
-        // Update product details
-        if (product) {
-            document.getElementById('productTitle').textContent = product.title;
-            document.getElementById('productPrice').textContent = `${product.price} جنيه`;
-            document.getElementById('productDescription').textContent = product.description;
-            document.getElementById('productBreadcrumb').textContent = product.title;
-            
-            // Update main image
-            const mainImage = document.getElementById('mainImage');
-            mainImage.src = product.images[0];
-            mainImage.alt = product.title;
-
-            // Update thumbnails
-            const thumbnailGrid = document.getElementById('thumbnailGrid');
-            thumbnailGrid.innerHTML = '';
-            product.images.forEach((image, index) => {
-                const thumbnail = document.createElement('img');
-                thumbnail.src = image;
-                thumbnail.alt = `${product.title} - صورة ${index + 1}`;
-                thumbnail.className = index === 0 ? 'thumbnail active' : 'thumbnail';
-                thumbnail.addEventListener('click', () => {
-                    mainImage.src = image;
-                    mainImage.alt = `${product.title} - صورة ${index + 1}`;
-                    document.querySelectorAll('.thumbnail').forEach(thumb => thumb.classList.remove('active'));
-                    thumbnail.classList.add('active');
-                });
-                thumbnailGrid.appendChild(thumbnail);
-            });
-
-            // Update features
-            const featuresList = document.getElementById('productFeatures');
-            featuresList.innerHTML = '';
-            product.features.forEach(feature => {
-                const li = document.createElement('li');
-                li.textContent = feature;
-                featuresList.appendChild(li);
-            });
-
-            // Update color selector
-            const colorSelector = document.getElementById('colorSelector');
-            colorSelector.innerHTML = '';
-            product.colors.forEach(color => {
-                const button = document.createElement('button');
-                button.className = 'color-option';
-                button.setAttribute('data-color', color);
-                
-                // Add tooltip with color name
-                const tooltip = document.createElement('span');
-                tooltip.className = 'color-name-tooltip';
-                tooltip.textContent = color;
-                button.appendChild(tooltip);
-
-                button.addEventListener('click', () => {
-                    document.querySelectorAll('.color-option').forEach(btn => btn.classList.remove('selected'));
-                    button.classList.add('selected');
-                });
-                colorSelector.appendChild(button);
-            });
-
-            // Size selector functionality
-            const sizeButtons = document.querySelectorAll('.size-option');
-            sizeButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    sizeButtons.forEach(btn => btn.classList.remove('selected'));
-                    button.classList.add('selected');
-                });
-            });
-
-            // Initialize total
-            updateQuantityMessage();
-
-            // Add to cart functionality
-            const addToCartBtn = document.getElementById('addToCartBtn');
-            addToCartBtn.addEventListener('click', () => {
-                const selectedSize = document.querySelector('.size-option.selected');
-                const selectedColor = document.querySelector('.color-option.selected');
-                
-                if (!selectedSize) {
-                    alert('الرجاء اختيار المقاس');
-                    return;
-                }
-                
-                if (!selectedColor) {
-                    alert('الرجاء اختيار اللون');
-                    return;
-                }
-
-                const cartItem = {
-                    id: product.id,
-                    title: product.title,
-                    price: product.price,
-                    quantity: quantity,
-                    size: selectedSize.textContent,
-                    color: selectedColor.getAttribute('data-color'),
-                    image: product.images[0]
-                };
-
-                // Get existing cart items
-                let cart = JSON.parse(localStorage.getItem('cart')) || [];
-                
-                // Add new item
-                cart.push(cartItem);
-                
-                // Save to localStorage
-                localStorage.setItem('cart', JSON.stringify(cart));
-                
-                // Update cart count
-                const cartCount = document.getElementById('cartCount');
-                cartCount.textContent = cart.length;
-                
-                // Show success message
-                addToCartBtn.innerHTML = '<i class="fas fa-check"></i> تمت الإضافة للسلة';
-                addToCartBtn.classList.add('added');
-                
-                setTimeout(() => {
-                    addToCartBtn.innerHTML = '<i class="fas fa-shopping-cart"></i> أضف إلى السلة';
-                    addToCartBtn.classList.remove('added');
-                }, 2000);
-            });
-        }
-    </script>
+    <!-- Scripts -->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script src="products.js"></script>
-    <script src="search.js"></script>
     <script src="menu.js"></script>
+    <script src="search.js"></script>
+    <script src="ui-updater.js"></script>
+    <script src="cart.js"></script>
+    <script src="product-essential.js"></script>
     <script>
+        // Initialize AOS
         AOS.init({
             duration: 800,
             once: true
         });
 
-        // Add to cart functionality
-        const addToCartBtn = document.getElementById('addToCartBtn');
-        if (addToCartBtn) {
-            addToCartBtn.addEventListener('click', function() {
-                const quantity = parseInt(document.getElementById('quantityInput').value) || 1;
-                window.updateCart(quantity); // Add the selected quantity to cart
-                
-                // Add animation class
-                this.classList.add('added');
-                setTimeout(() => this.classList.remove('added'), 1000);
-            });
-        }
+        // Initialize quantity
+        window.quantity = 1;
 
-        // Quantity selector functionality
-        function increaseQuantity() {
-            const input = document.getElementById('quantityInput');
-            const currentValue = parseInt(input.value) || 1;
-            input.value = currentValue + 1;
-            updateQuantityMessage();
-        }
-
-        function decreaseQuantity() {
-            const input = document.getElementById('quantityInput');
-            const currentValue = parseInt(input.value) || 1;
-            if (currentValue > 1) {
-                input.value = currentValue - 1;
+        function incrementQuantity() {
+            if (window.quantity < 10) {
+                window.quantity++;
+                document.getElementById('quantity').value = window.quantity;
                 updateQuantityMessage();
             }
         }
-
+        
+        function decrementQuantity() {
+            if (window.quantity > 1) {
+                window.quantity--;
+                document.getElementById('quantity').value = window.quantity;
+                updateQuantityMessage();
+            }
+        }
+        
         function updateQuantityMessage() {
-            const quantity = parseInt(document.getElementById('quantityInput').value) || 1;
             const message = document.getElementById('quantityMessage');
-            if (quantity > 1) {
-                message.textContent = `الكمية المحددة: ${quantity} قطع`;
+            if (window.quantity >= 5) {
+                message.textContent = 'طلب بالجملة! تواصل معنا للحصول على سعر خاص';
+                message.className = 'quantity-message';
             } else {
                 message.textContent = '';
+            }
+        }
+    </script>
+
+    <!-- Size Guide Modal -->
+    <div id="sizeGuideModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeSizeGuide()">&times;</span>
+            <h2>دليل المقاسات</h2>
+            <div class="size-guide-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>المقاس</th>
+                            <th>الطول (سم)</th>
+                            <th>العرض (سم)</th>
+                            <th>طول الكم (سم)</th>
+                            <th>مناسب لوزن (كجم)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>S</td>
+                            <td>140</td>
+                            <td>60</td>
+                            <td>55</td>
+                            <td>45-55</td>
+                        </tr>
+                        <tr>
+                            <td>M</td>
+                            <td>145</td>
+                            <td>65</td>
+                            <td>57</td>
+                            <td>55-65</td>
+                        </tr>
+                        <tr>
+                            <td>L</td>
+                            <td>150</td>
+                            <td>70</td>
+                            <td>59</td>
+                            <td>65-75</td>
+                        </tr>
+                        <tr>
+                            <td>XL</td>
+                            <td>155</td>
+                            <td>75</td>
+                            <td>61</td>
+                            <td>75-85</td>
+                        </tr>
+                        <tr>
+                            <td>XXL</td>
+                            <td>160</td>
+                            <td>80</td>
+                            <td>63</td>
+                            <td>85-95</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="size-guide-notes">
+                <h3>ملاحظات القياس:</h3>
+                <ul>
+                    <li>يتم قياس الطول من الكتف إلى أسفل العباية</li>
+                    <li>يتم قياس العرض من الإبط إلى الإبط</li>
+                    <li>يتم قياس طول الكم من نقطة الكتف إلى نهاية الكم</li>
+                    <li>القياسات تقريبية وقد تختلف قليلاً حسب التصميم</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            overflow: auto;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+            position: relative;
+            direction: rtl;
+        }
+
+        .close-modal {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .close-modal:hover {
+            color: #000;
+        }
+
+        .size-guide-table {
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .size-guide-table table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .size-guide-table th,
+        .size-guide-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .size-guide-table th {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .size-guide-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .size-guide-notes {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .size-guide-notes h3 {
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+
+        .size-guide-notes ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .size-guide-notes li {
+            margin-bottom: 10px;
+            padding-right: 20px;
+            position: relative;
+        }
+
+        .size-guide-notes li:before {
+            content: "•";
+            color: var(--secondary);
+            position: absolute;
+            right: 0;
+        }
+
+        .size-guide-link {
+            background: none;
+            border: none;
+            color: var(--secondary);
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            padding: 0;
+        }
+
+        .size-guide-link:hover {
+            color: var(--gold-dark);
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                margin: 10% auto;
+                width: 95%;
+                padding: 15px;
+            }
+
+            .size-guide-table {
+                font-size: 14px;
+            }
+
+            .size-guide-table th,
+            .size-guide-table td {
+                padding: 8px;
+            }
+        }
+    </style>
+
+    <script>
+        function openSizeGuide() {
+            document.getElementById('sizeGuideModal').style.display = 'block';
+        }
+
+        function closeSizeGuide() {
+            document.getElementById('sizeGuideModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('sizeGuideModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
             }
         }
     </script>

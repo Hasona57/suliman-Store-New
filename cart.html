@@ -9,427 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="product.css">
-    <style>
-.cart-page {
-    padding-top: 100px;
-    min-height: 100vh;
-            background: var(--background);
-}
-
-.cart-container {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 2.5rem;
-            padding: 2rem 0;
-}
-
-.cart-items {
-            background: white;
-    padding: 2rem;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-}
-
-.cart-item {
-    display: flex;
-    gap: 1.5rem;
-    padding: 1.2rem 0;
-            border-bottom: 1px solid var(--border);
-            transition: background var(--transition-normal);
-}
-
-.cart-item:last-child {
-    border-bottom: none;
-}
-
-.cart-item img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-sm);
-}
-
-.cart-item-details {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.cart-item-title {
-            font-size: var(--font-size-lg);
-    font-weight: 600;
-    margin-bottom: 0.3rem;
-            color: var(--text-primary);
-}
-
-.cart-item-price {
-    color: var(--accent-color);
-    font-weight: bold;
-            font-size: var(--font-size-base);
-}
-
-.cart-item-quantity {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.quantity-btn {
-    width: 32px;
-    height: 32px;
-            border-radius: var(--radius-full);
-            border: 1px solid var(--border);
-            background: white;
-            color: var(--text-primary);
-    cursor: pointer;
-            transition: all var(--transition-normal);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-}
-
-.quantity-btn:hover {
-            background: var(--secondary-color);
-            color: white;
-            border-color: var(--secondary-color);
-}
-
-.remove-item {
-    background: none;
-    border: none;
-    color: #ff4444;
-    cursor: pointer;
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-    padding: 0;
-            transition: color var(--transition-normal);
-}
-
-.remove-item:hover {
-    color: #cc0000;
-}
-
-.cart-summary {
-            background: white;
-    padding: 2rem;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-    position: sticky;
-    top: 100px;
-}
-
-.cart-total {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-            font-size: var(--font-size-base);
-    padding: 0.7rem 0;
-            border-bottom: 1px solid var(--border);
-}
-
-.cart-total:last-of-type {
-    border-bottom: none;
-    font-weight: bold;
-            font-size: var(--font-size-lg);
-            color: var(--accent-color);
-}
-
-.checkout-form {
-    margin-top: 2rem;
-}
-
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-.form-group input,
-.form-group textarea {
-    width: 100%;
-    padding: 0.85rem;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    background: #f8f9fa;
-    color: #333333;
-    transition: all var(--transition-normal);
-    font-size: var(--font-size-base);
-}
-
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-    color: #6c757d;
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: var(--accent-color);
-    background: #ffffff;
-    box-shadow: 0 0 0 2px rgba(212,176,140,0.1);
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.4rem;
-    font-weight: 600;
-    color: #333333;
-}
-
-.checkout-btn {
-    width: 100%;
-    padding: 1rem;
-    background-color: #D4B08C;
-    color: #000000;
-    border: none;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 1rem;
-}
-
-.checkout-btn:hover {
-    background-color: #C4A07C;
-}
-
-.empty-cart {
-    text-align: center;
-    padding: 4rem 2rem;
-            background: white;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-}
-
-.empty-cart i {
-    font-size: 4rem;
-    color: var(--secondary-color);
-    margin-bottom: 1.2rem;
-}
-
-.empty-cart p {
-            font-size: var(--font-size-lg);
-    margin-bottom: 1.2rem;
-            color: var(--text-primary);
-}
-
-.empty-cart .cta-button {
-    display: inline-block;
-    padding: 0.9rem 2.2rem;
-    background: var(--accent-color);
-            color: white;
-    text-decoration: none;
-            border-radius: var(--radius-full);
-    font-weight: 700;
-            transition: all var(--transition-normal);
-}
-
-.empty-cart .cta-button:hover {
-    background: var(--primary-color);
-            transform: translateY(-2px);
-        }
-
-        @media (max-width: 768px) {
-            .cart-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .cart-summary {
-                position: static;
-                margin-top: 2rem;
-            }
-        }
-
-        .cart-item-specs {
-            display: flex;
-            gap: 1rem;
-            margin: 0.5rem 0;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .item-color, .item-size {
-            background: rgba(212,176,140,0.1);
-            padding: 0.3rem 0.8rem;
-            border-radius: var(--radius-full);
-            font-weight: 600;
-        }
-
-        .item-color {
-            color: var(--accent-color);
-        }
-
-        .item-size {
-            color: var(--primary-color);
-        }
-
-        /* Message Styles */
-        .message {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            padding: 1rem 2rem;
-            border-radius: var(--radius-lg);
-            background: white;
-            box-shadow: var(--shadow-lg);
-            animation: slideDown 0.3s ease-out;
-        }
-
-        .message-content {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .message.error {
-            background: #fff2f2;
-            color: #ff4444;
-        }
-
-        .message.success {
-            background: #f0fff4;
-            color: #38a169;
-        }
-
-        @keyframes slideDown {
-            from {
-                transform: translate(-50%, -100%);
-                opacity: 0;
-            }
-            to {
-                transform: translate(-50%, 0);
-                opacity: 1;
-            }
-        }
-
-        /* Modal Styles */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 1rem;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 2rem;
-            border-radius: var(--radius-lg);
-            max-width: 500px;
-            width: 100%;
-            text-align: center;
-            position: relative;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .success-icon {
-            font-size: 4rem;
-            color: #38a169;
-            margin-bottom: 1rem;
-        }
-
-        .modal h2 {
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-
-        .order-summary {
-            margin: 1.5rem 0;
-            text-align: right;
-            background: var(--background);
-            padding: 1rem;
-            border-radius: var(--radius-md);
-        }
-
-        .order-summary h3 {
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        .order-summary p {
-            margin: 0.5rem 0;
-            color: var(--text-secondary);
-        }
-
-        .modal-btn {
-            background: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: var(--radius-full);
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin: 0 auto;
-            transition: all var(--transition-normal);
-        }
-
-        .modal-btn:hover {
-            background: var(--primary-color);
-            transform: translateY(-2px);
-        }
-
-        /* Loading Overlay */
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.9);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-        }
-
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid var(--background);
-            border-top: 5px solid var(--accent-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 1rem;
-        }
-
-        .loading-text {
-            color: var(--primary-color);
-            font-size: 1.2rem;
-            font-weight: 600;
-            text-align: center;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-}
-    </style>
+    <link rel="stylesheet" href="cart.css">
 </head>
 <body>
     <header class="header">
@@ -452,20 +32,31 @@
                 </li>
             </ul>
             <div class="nav-actions" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="600">
-                <div class="search-container">
-                    <form id="searchForm" class="search-form" role="search">
-                        <input type="search" class="search-input" placeholder="ابحث عن المنتجات..." aria-label="البحث">
-                        <button type="button" id="searchClear" class="search-clear" aria-label="مسح البحث">
-                            <i class="fas fa-times"></i>
-                        </button>
-                        <button type="submit" class="search-btn" aria-label="بحث">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </form>
-                    <div id="searchResults" class="search-results" role="region" aria-live="polite">
-                        <div class="search-loading">
-                            <div class="spinner"></div>
-                            <span>جاري البحث...</span>
+                <div class="search-wrapper">
+                    <button class="search-toggle-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <div id="searchContainer" class="search-container">
+                        <form id="searchForm" class="search-form" role="search">
+                            <div class="search-input-container">
+                                <input type="search" 
+                                       class="search-input" 
+                                       placeholder="ابحث عن عباية..." 
+                                       aria-label="البحث"
+                                       autocomplete="off">
+                                <button type="button" 
+                                        id="searchClear" 
+                                        class="search-clear" 
+                                        aria-label="مسح البحث">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </form>
+                        <div id="searchResults" class="search-results" role="region" aria-live="polite">
+                            <div class="search-loading">
+                                <div class="spinner"></div>
+                                <span>جاري البحث...</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -482,60 +73,126 @@
 
     <main class="cart-page">
         <div class="container">
+            <div class="breadcrumb" data-aos="fade-down" data-aos-duration="1000">
+                <span><a href="index.html">الرئيسية</a></span>
+                <span>سلة المشتريات</span>
+            </div>
+
             <div class="cart-container">
-                <div class="cart-items">
-                    <!-- Cart items will be dynamically inserted here -->
+                <div id="cartItems" class="cart-items">
+                    <!-- Cart items will be loaded here -->
                 </div>
-                <div class="cart-summary">
-                    <!-- Cart summary will be dynamically inserted here -->
+                <div id="cartSummary" class="cart-summary">
+                    <h3>ملخص الطلب</h3>
+                    <div class="summary-details">
+                        <div class="summary-row">
+                            <span>عدد المنتجات:</span>
+                            <span id="itemCount">0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>المجموع:</span>
+                            <span class="total-amount">0 جنيه</span>
+                        </div>
+                    </div>
+                    
+                    <form id="checkoutForm" class="checkout-form">
+                        <div class="form-group">
+                            <label for="name">الاسم بالكامل</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">البريد الإلكتروني</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">رقم الجوال</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">العنوان بالتفصيل</label>
+                            <textarea id="address" name="address" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="notes">ملاحظات إضافية (اختياري)</label>
+                            <textarea id="notes" name="notes" rows="2"></textarea>
+                        </div>
+                        <button type="submit" class="checkout-btn">
+                            <i class="fas fa-shopping-bag"></i>
+                            إتمام الطلب
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay">
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <p>جاري معالجة طلبك...</p>
+            </div>
+        </div>
+
+        <!-- Success Message -->
+        <div id="successMessage" class="message success">
+            <div class="message-content">
+                <i class="fas fa-check-circle"></i>
+                <p>تم إرسال طلبك بنجاح! سيتم إرسال تفاصيل الطلب إلى بريدك الإلكتروني.</p>
+            </div>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="message error">
+            <div class="message-content">
+                <i class="fas fa-exclamation-circle"></i>
+                <p>عذراً، حدث خطأ. يرجى المحاولة مرة أخرى أو التواصل معنا مباشرة.</p>
+            </div>
+        </div>
     </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-info">
+                <img src="images/Logo/Logo.jpeg" alt="سليمان للعبايات" class="footer-logo">
+                <p>نقدم لكِ أجمل تصاميم العبايات العصرية</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-snapchat"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>روابط سريعة</h4>
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="index.html#products">منتجاتنا</a></li>
+                    <li><a href="index.html#about">من نحن</a></li>
+                    <li><a href="index.html#contact">اتصل بنا</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>تواصل معنا</h4>
+                <p><i class="fas fa-phone"></i> <span>+201104145446</span></p>
+                <p><i class="fas fa-envelope"></i> <span>suliman.abayat.store@gmail.com</span></p>
+                <p><i class="fas fa-map-marker-alt"></i> <span>مصر، جيزة، كرداسه</span></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>جميع الحقوق محفوظة © 2024 سليمان للعبايات</p>
+        </div>
+    </footer>
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script src="products.js"></script>
     <script src="search.js"></script>
     <script src="menu.js"></script>
+    <script src="cart.js"></script>
     <script>
         AOS.init({
             duration: 800,
             once: true
         });
-
-        // Update quantity in cart
-        function updateCartItemQuantity(change, itemId) {
-            const quantityElement = document.querySelector(`#item-${itemId} .quantity-input`);
-            const currentQuantity = parseInt(quantityElement.value) || 1;
-            const newQuantity = Math.max(1, currentQuantity + change);
-            
-            quantityElement.value = newQuantity;
-            window.updateCart(change); // Update the total cart count
-            updateTotalPrice();
-        }
-
-        // Remove item from cart
-        function removeCartItem(itemId) {
-            const item = document.querySelector(`#item-${itemId}`);
-            const quantity = parseInt(item.querySelector('.quantity-input').value) || 1;
-            item.remove();
-            window.updateCart(-quantity); // Decrease the cart count by the item's quantity
-            updateTotalPrice();
-        }
-
-        // Update total price
-        function updateTotalPrice() {
-            const items = document.querySelectorAll('.cart-item');
-            let total = 0;
-            
-            items.forEach(item => {
-                const price = parseFloat(item.querySelector('.price').textContent.replace(' جنيه', ''));
-                const quantity = parseInt(item.querySelector('.quantity-input').value) || 1;
-                total += price * quantity;
-            });
-
-            document.getElementById('cartTotal').textContent = `${total} جنيه`;
-        }
     </script>
 </body>
 </html> 

@@ -1,98 +1,71 @@
-# Suliman Store
+# Sulaiman Abayas Store
 
-A modern e-commerce website specializing in various clothing categories including casual, classic, luxury, and embroidered wear.
+A modern e-commerce website specializing in luxury abayas and traditional women's clothing.
 
 ## Features
 
-- **Modern Design**: Built with contemporary CSS features including:
-  - HSL color system with color-mix()
-  - Fluid typography
-  - Container queries
-  - Modern viewport units
-  - RTL language support
-  - Dark mode support
+- Modern, elegant design
+- Responsive product showcase
+- Advanced search functionality
+- Integrated shopping cart
+- Product categorization
+- Detailed product views
+- Size and color selection
+- Real-time cart updates
+- Contact form
+- Mobile-first design
 
-- **Accessibility**:
-  - Enhanced focus states
-  - Reduced motion support
-  - Optimized for screen readers
-  - ARIA-compliant markup
+## Technologies Used
 
-- **Performance Optimized**:
-  - Efficient animations and transitions
-  - Optimized image loading
-  - Skeleton loading states
-  - Responsive design patterns
-
-- **Shopping Experience**:
-  - Product categorization
-  - Shopping cart functionality
-  - Product search
-  - Responsive product grid
-  - Detailed product views
+- HTML5
+- CSS3 with modern features
+- Vanilla JavaScript
+- LocalStorage for cart management
+- Font Awesome icons
+- Google Fonts
+- AOS for animations
 
 ## Project Structure
 
 ```
 suliman-Store-New/
-├── HTML Files
-│   ├── index.html    # Home page
-│   ├── product.html  # Product listing page
-│   └── cart.html     # Shopping cart page
-│
-├── CSS Files
-│   ├── style.css           # Main styles
-│   ├── product.css         # Product-specific styles
-│   └── product-essential.css
-│
-├── JavaScript Files
-│   ├── cart.js       # Cart functionality
-│   ├── menu.js       # Navigation menu
-│   ├── products.js   # Product management
-│   └── search.js     # Search functionality
-│
-└── images/
-    ├── Logo/
-    ├── Hero/
-    └── products/
-        ├── casual/
-        ├── classic/
-        ├── embroidered/
-        ├── luxury/
-        └── modern/
+├── images/
+│   ├── Logo/
+│   ├── Hero/
+│   └── products/
+│       ├── casual/
+│       ├── classic/
+│       ├── embroidered/
+│       ├── luxury/
+│       └── modern/
+├── index.html
+├── style.css
+├── product.html
+├── product.css
+├── product-essential.js
+├── cart.html
+├── cart.css
+├── cart.js
+├── search.js
+├── menu.js
+└── products.js
 ```
 
-## Design Features
-
-### Modern CSS Implementation
-- Fluid typography with clamp()
-- Container queries for responsive layouts
-- Logical properties for better RTL support
-- Custom properties for theming
-- Modern color system using HSL
-
-### Responsive Design
-- Mobile-first approach
-- Breakpoint-based layouts
-- Container queries for component-level responsiveness
-- Fluid spacing and typography
-
-### Accessibility Features
-- High contrast mode support
-- Keyboard navigation
-- Screen reader optimizations
-- Reduced motion preferences
-
-### Print Styles
-- Optimized layout for printed pages
-- QR codes for digital reference
-- Printer-friendly color schemes
-
-## Getting Started
+## Installation
 
 1. Clone the repository
-2. Open `index.html` in your web browser
+2. Open `index.html` in your browser
 3. No build process required - pure HTML, CSS, and JavaScript
+
+## Core Functions
+
+- Product display and filtering
+- Advanced search with real-time results
+- Shopping cart management
+- Order processing
+- Size and color selection
+- Image gallery
+- Contact form
 
 ## Browser Support
 
@@ -101,25 +74,23 @@ suliman-Store-New/
 - Safari (latest)
 - Edge (latest)
 
-## Mobile Support
+## Contributing
 
-- Responsive design works on all modern mobile devices
-- Touch-optimized interfaces
-- Mobile-first development approach
+We welcome contributions! To contribute:
 
-## Future Enhancements
-
-- Enhanced search functionality
-- User authentication
-- Wishlist feature
-- Product reviews and ratings
-- Payment gateway integration
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## License
 
-This project is proprietary and all rights are reserved.
+This project is licensed under the MIT License
 
----
+## Contact
 
-For questions or support, please contact me.
+- Email: info@sulaiman.com
+- Website: www.sulaiman.com
+- Phone: +966 50 000 0000
 

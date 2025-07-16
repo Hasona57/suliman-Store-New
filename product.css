@@ -97,10 +97,12 @@
     display: flex;
     gap: 1rem;
     margin: 1rem 0;
+    flex-wrap: wrap;
 }
 
 .size-option {
-    padding: 0.8rem 2rem;
+    min-width: 80px;
+    padding: 1rem 2rem;
     border: 2px solid var(--text-light);
     border-radius: var(--radius-md);
     cursor: pointer;
@@ -109,15 +111,145 @@
     font-weight: 600;
     color: var(--text-primary);
     transition: all var(--transition-normal);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.size-option:hover, 
-.size-option.active {
+.size-option:hover {
+    border-color: var(--secondary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.size-option.selected {
     background: var(--secondary);
     color: white;
     border-color: var(--secondary);
     transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.size-option.selected::after {
+    content: '\f00c';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--secondary);
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    border: 2px solid white;
     box-shadow: var(--shadow-sm);
+}
+
+.size-guide {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    color: var(--secondary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.size-guide:hover {
+    opacity: 0.8;
+}
+
+.size-guide i {
+    font-size: 1.2rem;
+}
+
+/* Size Guide Modal */
+.size-guide-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.size-guide-modal.active {
+    display: flex;
+}
+
+.size-guide-content {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.size-guide-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.size-guide-header h3 {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+}
+
+.size-guide-close {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.size-guide-close:hover {
+    color: var(--text-primary);
+}
+
+.size-guide-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+}
+
+.size-guide-table th,
+.size-guide-table td {
+    padding: 1rem;
+    text-align: center;
+    border: 1px solid var(--text-light);
+}
+
+.size-guide-table th {
+    background: var(--background);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.size-guide-table td {
+    color: var(--text-secondary);
+}
+
+.size-guide-note {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
 }
 
 .quantity-selector {
@@ -349,4 +481,70 @@
         padding: 1rem;
         font-size: 1.1rem;
     }
+}
+
+.color-selector {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.color-option {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    border: 2px solid #ddd;
+    padding: 0;
+    margin: 0;
+    outline: none;
+}
+
+.color-option:hover {
+    transform: scale(1.1);
+}
+
+.color-option.selected {
+    border: 3px solid var(--gold-color);
+    transform: scale(1.15);
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.color-option.selected::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border: 2px solid var(--gold-color);
+    border-radius: 50%;
+}
+
+/* Color-specific backgrounds */
+.color-option[data-color="black"] {
+    background-color: #000000;
+}
+
+.color-option[data-color="beige"] {
+    background-color: #F5E6CB;
+}
+
+.color-option[data-color="grey"] {
+    background-color: #808080;
+}
+
+.color-option[data-color="navy"] {
+    background-color: #1B1B3A;
+}
+
+.color-option[data-color="white"] {
+    background-color: #FFFFFF;
+}
+
+.color-option[data-color="golden"] {
+    background: linear-gradient(45deg, #FFD700, #FDB931);
 }

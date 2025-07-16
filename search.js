@@ -1,248 +1,180 @@
-// Toggle search functionality
-function toggleSearch() {
-    const searchContainer = document.getElementById('searchContainer');
-    searchContainer.classList.toggle('active');
-    if (searchContainer.classList.contains('active')) {
-        searchContainer.querySelector('.search-input').focus();
-    }
-}
-
-// Search functionality
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Search functionality initialized');
-    
-    // Initialize search toggle
     const searchToggleBtn = document.querySelector('.search-toggle-btn');
     const searchContainer = document.getElementById('searchContainer');
-    
-    searchToggleBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        searchContainer.classList.toggle('active');
-        if (searchContainer.classList.contains('active')) {
-            searchContainer.querySelector('.search-input').focus();
-        }
-    });
-    
-    // Wait for products.js to load
-    setTimeout(() => {
-        initializeSearch();
-    }, 100);
-});
-
-function initializeSearch() {
     const searchForm = document.getElementById('searchForm');
-    const searchInput = searchForm.querySelector('.search-input');
+    const searchInput = searchForm?.querySelector('.search-input');
     const searchResults = document.getElementById('searchResults');
     const searchClear = document.getElementById('searchClear');
-    const searchLoading = searchResults.querySelector('.search-loading');
     
-    // Get products from the global products object
-    const products = window.products || {};
-    console.log('Available products:', Object.keys(products).length);
+    if (!searchToggleBtn || !searchContainer || !searchForm || !searchInput || !searchResults || !searchClear) return;
+    
+    const products = Object.values(window.products || {});
+    
+    searchToggleBtn.addEventListener('click', () => {
+        searchContainer.classList.toggle('active');
+        if (searchContainer.classList.contains('active')) {
+            searchInput.focus();
+        }
+    });
 
-    // Normalize Arabic text for better matching
+    document.addEventListener('click', (e) => {
+        if (!searchContainer.contains(e.target) && !searchToggleBtn.contains(e.target)) {
+            searchContainer.classList.remove('active');
+        }
+    });
+
+    searchContainer.addEventListener('click', (e) => e.stopPropagation());
+
     function normalizeArabic(text) {
         return text
-            .replace(/[يى]/g, 'ي')
-            .replace(/[ةه]/g, 'ه')
-            .replace(/[أإآا]/g, 'ا')
-            .replace(/[ؤو]/g, 'و')
-            .replace(/[ئى]/g, 'ي')
-            .toLowerCase()
-            .trim();
+            .replace(/[إأآا]/g, 'ا')
+            .replace(/ى/g, 'ي')
+            .replace(/ة/g, 'ه')
+            .toLowerCase();
     }
 
-    // Fuzzy search implementation
     function fuzzyMatch(text, query) {
         text = normalizeArabic(text);
         query = normalizeArabic(query);
         
-        const pattern = query.split('').map(char => 
-            char.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-        ).join('.*');
-        const regex = new RegExp(pattern, 'i');
-        return regex.test(text);
-    }
-
-    function getFuzzyScore(text, query) {
-        if (!query) return 0;
-        text = normalizeArabic(text);
-        query = normalizeArabic(query);
+        let pattern = '';
+        for (let char of query) {
+            pattern += char + '.*';
+        }
         
-        if (text === query) return 1;
-        if (text.startsWith(query)) return 0.9;
-        if (text.includes(query)) return 0.7;
-        if (fuzzyMatch(text, query)) return 0.5;
-        return 0;
+        return new RegExp(pattern).test(text);
     }
 
-    function getRelevanceScore(product, query) {
-        if (!query) return 0;
-        const queryWords = normalizeArabic(query).split(' ').map(word => word.trim()).filter(Boolean);
-        let score = 0;
-
-        queryWords.forEach(word => {
-            // Title match (highest priority)
-            score += getFuzzyScore(product.title, word) * 10;
-            
-            // Category match
-            score += getFuzzyScore(product.category, word) * 8;
-            
-            // Description match
-            score += getFuzzyScore(product.description, word) * 6;
-            
-            // Features match
-            const featureScore = product.features.reduce((acc, feature) => 
-                acc + getFuzzyScore(feature, word), 0);
-            score += featureScore * 4;
-        });
-
-        return score / queryWords.length;
+    function searchProducts(query) {
+        if (!query) return [];
+        
+        return products
+            .map(product => {
+                let score = 0;
+                
+                if (fuzzyMatch(product.title, query)) score += 3;
+                if (fuzzyMatch(product.category, query)) score += 2;
+                if (fuzzyMatch(product.description, query)) score += 1;
+                
+                product.features.forEach(feature => {
+                    if (fuzzyMatch(feature, query)) score += 1;
+                });
+                
+                return { product, score };
+            })
+            .filter(item => item.score > 0)
+            .sort((a, b) => b.score - a.score)
+            .map(item => item.product)
+            .slice(0, 6);
     }
 
     function highlightText(text, query) {
         if (!query) return text;
-        query = normalizeArabic(query);
-        const words = query.split(' ').map(word => word.trim()).filter(Boolean);
-        let highlightedText = text;
-        words.forEach(word => {
-            const pattern = `(${word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`;
-            const regex = new RegExp(pattern, 'gi');
-            highlightedText = highlightedText.replace(regex, '<mark>$1</mark>');
-        });
-        return highlightedText;
+        
+        const normalizedText = normalizeArabic(text);
+        const normalizedQuery = normalizeArabic(query);
+        
+        let result = text;
+        let startIndex = normalizedText.indexOf(normalizedQuery);
+        
+        if (startIndex !== -1) {
+            const endIndex = startIndex + normalizedQuery.length;
+            const prefix = text.slice(0, startIndex);
+            const match = text.slice(startIndex, endIndex);
+            const suffix = text.slice(endIndex);
+            result = `${prefix}<mark>${match}</mark>${suffix}`;
+        }
+        
+        return result;
     }
 
     function formatPrice(price) {
-        return `${price} جنيه`;
+        return `${price.toLocaleString()} جنيه`;
     }
 
-    async function performSearch(query) {
-        console.log('Performing search for:', query);
-        query = query.trim();
+    function displayResults(results, query) {
+        if (!searchResults) return;
         
-        // Toggle clear button visibility
-        searchClear.classList.toggle('visible', query.length > 0);
-        
-        if (query.length < 1) {
-            searchResults.classList.remove('active');
+        if (results.length === 0) {
+            searchResults.innerHTML = `
+                <div class="search-results-header" role="status">
+                    لا توجد نتائج للبحث
+                </div>
+            `;
             return;
         }
 
-        try {
-            // Show loading state
-            searchResults.classList.add('active');
-            searchLoading.classList.add('active');
-
-            // Get search results
-            const results = Object.values(products)
-                .map(product => ({
-                    ...product,
-                    relevance: getRelevanceScore(product, query)
-                }))
-                .filter(product => product.relevance > 0)
-                .sort((a, b) => b.relevance - a.relevance)
-                .slice(0, 6); // Limit to 6 results
-
-            console.log('Search results:', results.length);
-
-            searchLoading.classList.remove('active');
-
-            if (results.length > 0) {
-                const resultsHTML = results.map((product, index) => `
-                    <a href="product.html?id=${product.id}" 
-                       class="search-result-item"
-                       role="option"
-                       aria-selected="false"
-                       tabindex="-1"
-                       data-index="${index}">
-                        <img src="${product.images[0]}" 
-                             alt="${product.title}" 
-                             class="search-result-image"
-                             loading="lazy"
-                             onerror="this.src='images/products/classic/classic-1.jpg'">
-                        <div class="search-result-info">
-                            <div class="search-result-title">${highlightText(product.title, query)}</div>
-                            <div class="search-result-category">${highlightText(product.category, query)}</div>
-                            <div class="search-result-price">${formatPrice(product.price)}</div>
-                            <div class="search-result-features">
-                                ${product.features.slice(0, 2).map(feature => 
-                                    `<span class="search-result-feature">${highlightText(feature, query)}</span>`
-                                ).join('')}
-                            </div>
-                        </div>
-                    </a>
-                `).join('');
-                
-                searchResults.innerHTML = `
-                    <div class="search-results-header" role="status">
-                        نتائج البحث (${results.length})
+        const resultsHTML = results.map((product, index) => `
+            <a href="product.html?id=${product.id}" 
+               class="search-result-item"
+               role="option"
+               aria-selected="false"
+               tabindex="-1"
+               data-index="${index}">
+                <img src="${product.images[0]}" 
+                     alt="${product.title}" 
+                     class="search-result-image"
+                     loading="lazy"
+                     onerror="this.src='images/products/classic/classic-1.jpg'">
+                <div class="search-result-info">
+                    <div class="search-result-title">${highlightText(product.title, query)}</div>
+                    <div class="search-result-category">${highlightText(product.category, query)}</div>
+                    <div class="search-result-price">${formatPrice(product.price)}</div>
+                    <div class="search-result-features">
+                        ${product.features.slice(0, 2).map(feature => 
+                            `<span class="search-result-feature">${highlightText(feature, query)}</span>`
+                        ).join('')}
                     </div>
-                    <div class="search-results-list" role="listbox">
-                        ${resultsHTML}
-                    </div>
-                `;
-            } else {
-                searchResults.innerHTML = `
-                    <div class="search-results-header" role="status">نتائج البحث</div>
-                    <div class="search-no-results">
-                        <i class="fas fa-search" aria-hidden="true"></i>
-                        <p>لم يتم العثور على نتائج لـ "${query}"</p>
-                    </div>
-                `;
-            }
-
-        } catch (error) {
-            console.error('Search error:', error);
-            searchLoading.classList.remove('active');
-            searchResults.innerHTML = `
-                <div class="search-error">
-                    <p>عذراً، حدث خطأ أثناء البحث. يرجى المحاولة مرة أخرى.</p>
                 </div>
-            `;
-        }
+            </a>
+        `).join('');
+        
+        searchResults.innerHTML = `
+            <div class="search-results-header" role="status">
+                نتائج البحث (${results.length})
+            </div>
+            <div class="search-results-list" role="listbox">
+                ${resultsHTML}
+            </div>
+        `;
     }
 
-    // Event Listeners
-    const debouncedSearch = debounce((value) => {
-        console.log('Debounced search for:', value);
-        performSearch(value);
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    const debouncedSearch = debounce((query) => {
+        const results = searchProducts(query);
+        displayResults(results, query);
     }, 300);
 
-    searchForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        console.log('Form submitted with value:', searchInput.value);
-        performSearch(searchInput.value);
-    });
-
     searchInput.addEventListener('input', (e) => {
-        console.log('Input changed:', e.target.value);
-        debouncedSearch(e.target.value);
+        const query = e.target.value.trim();
+        searchClear.style.display = query ? 'block' : 'none';
+        debouncedSearch(query);
     });
 
     searchClear.addEventListener('click', () => {
         searchInput.value = '';
+        searchClear.style.display = 'none';
+        searchResults.innerHTML = '';
         searchInput.focus();
-        searchResults.classList.remove('active');
     });
 
-    // Close search results when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!searchForm.contains(e.target)) {
-            searchResults.classList.remove('active');
+    searchForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const query = searchInput.value.trim();
+        if (query) {
+            const results = searchProducts(query);
+            displayResults(results, query);
         }
     });
-}
-
-// Helper function for debouncing
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-} 
+}); 
